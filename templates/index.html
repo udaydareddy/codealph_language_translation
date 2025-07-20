@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Language Translation Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Free Translation Tool</h1>
+        <p class="subtitle">Translate text between languages instantly</p>
+        
+        <form method="POST" id="translateForm">
+            <div class="input-section">
+                <label for="text">Enter text to translate:</label>
+                <textarea name="text" id="text" rows="5" placeholder="Type or paste your text here..." required>{{ text }}</textarea>
+            </div>
+            
+            <div class="language-row">
+                <div class="language-select">
+                    <label for="source">From:</label>
+                    <select name="source" id="source">
+                        {% for code, name in languages.items() %}
+                            <option value="{{ code }}" {% if code == source_lang %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <button type="button" class="swap-btn" onclick="swapLanguages()">⇄</button>
+                
+                <div class="language-select">
+                    <label for="target">To:</label>
+                    <select name="target" id="target">
+                        {% for code, name in languages.items() %}
+                            <option value="{{ code }}" {% if code == target_lang %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <button type="submit" class="translate-btn">🔄 Translate</button>
+        </form>
+        
+        <div class="output-section">
+            <label>Translation:</label>
+            <div id="translated-text" class="translation-output">{{ translated_text }}</div>
+            
+            <div class="action-buttons">
+                <button onclick="copyText()" class="action-btn copy-btn">📋 Copy</button>
+                <button onclick="speakText()" class="action-btn tts-btn">🔊 Listen</button>
+                <button onclick="clearAll()" class="action-btn clear-btn">🗑️ Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
